@@ -1,4 +1,4 @@
-fetch(window._config.api.invokeUrl + '/helloWorld')
+fetch(_config.api.invokeUrl + '/helloworld')
   .then(response => response.json())
   .then(data => {
     document.getElementById('test-div').textContent = data;
