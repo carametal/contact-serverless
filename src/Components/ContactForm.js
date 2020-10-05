@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Container, Row, Col} from 'react-bootstrap';
+import { Button, Form, Container, Row, Col, Spinner} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import InfomationModal from './InfomationModal';
 
@@ -12,6 +12,7 @@ export default class ContactForm extends React.Component {
       subject: '',
       content: '',
       isModalVisible: false,
+      isLoading: false,
     };
   }
 
@@ -34,7 +35,11 @@ export default class ContactForm extends React.Component {
     }
     if(message) {
       alert(message);
+      return;
     }
+    this.setState({isLoading: true}, ()=> {
+      setTimeout(() => this.setState({isLoading: false}), 3000);
+    });
   }
 
   IsValidName() {
@@ -83,7 +88,12 @@ export default class ContactForm extends React.Component {
         <InfomationModal
           visible={this.state.isModalVisible}
           handleClose={() => this.handleClose()}
-        ></InfomationModal>
+        />
+        {this.state.isLoading &&
+          <div style={{ position: "absolute", width: "100%", height: "100%", backgroundColor: "#000", opacity: "0.5", zIndex: 9999}}>
+            <Spinner animation="border" style={{position: "absolute", top: "50%"}}/>
+          </div>
+        }
         <Container>
           <Row>
             <div style={{ width: "100%", textAlign: "center", paddingBottom: "20px"}}>
@@ -100,7 +110,7 @@ export default class ContactForm extends React.Component {
                   <Form.Control
                     type="text"
                     onChange={(e) => this.handleChangeName(e)}
-                  ></Form.Control>
+                  />
                 </Form.Group>
 
                 <Form.Group>
