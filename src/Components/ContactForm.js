@@ -11,34 +11,24 @@ export default class ContactForm extends React.Component {
       email: '',
       subject: '',
       content: '',
+      validated: false,
       isModalVisible: false,
       isLoading: false,
     };
   }
 
-  handleClickSubmit() {
-    let message = '';
-    if (!this.IsValidName()) {
-      message += "名前を入力してください。";
+  handleClickSubmit(event) {
+    const form = event.currentTarget;
+    if(form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
     }
-    if (!this.IsValidEmail()) {
-      message += message ? '\n' : '';
-      message += "Eメールアドレスを入力してください。";
-    }
-    if (!this.IsValidSubject()) {
-      message += message ? '\n' : '';
-      message += "件名を入力してください。";
-    }
-    if (!this.IsValidContent()) {
-      message += message ? '\n' : '';
-      message += "内容を入力してください。";
-    }
-    if(message) {
-      alert(message);
-      return;
-    }
-    this.setState({isLoading: true}, ()=> {
-      setTimeout(() => this.setState({isLoading: false}), 3000);
+    this.setState({validated: true}, () => {
+      if(form.checkValidity() === true) {
+        this.setState({isLoading: true}, ()=> {
+          this.setState({isLoading: false}, () => this.props.history.push("/confirmation"));
+        });
+      }
     });
   }
 
@@ -104,41 +94,49 @@ export default class ContactForm extends React.Component {
               >このサイトについて</Button>
             </div>
             <Col md={{ span: 6, offset: 3}}>
-              <Form>
+              <Form noValidate validated={this.state.validated} onSubmit={(event) => this.handleClickSubmit(event)}>
                 <Form.Group>
                   <Form.Label>名前</Form.Label>
                   <Form.Control
+                    required
                     type="text"
                     onChange={(e) => this.handleChangeName(e)}
                   />
+                  <Form.Control.Feedback type="invalid">名前を入力してください。</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group>
                   <Form.Label>Eメールアドレス</Form.Label>
                   <Form.Control
+                    required
                     type="email"
                     onChange={(e) => this.handleChangeEmail(e)}
                   ></Form.Control>
+                  <Form.Control.Feedback type="invalid">Eメールアドレスを入力してください。</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group>
                   <Form.Label>件名</Form.Label>
                   <Form.Control
+                    required
                     type="text"
                     onChange={(e) => this.handleChangeSubject(e)}
                   ></Form.Control>
+                  <Form.Control.Feedback type="invalid">件名を入力してください。</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group>
                   <Form.Label>内容</Form.Label>
                   <Form.Control
+                    required
                     as="textarea"
                     rows="8"
                     onChange={(e) => this.handleChangeContent(e)}
                   ></Form.Control>
+                  <Form.Control.Feedback type="invalid">件名を入力してください。</Form.Control.Feedback>
                 </Form.Group>
+                <Button type="submit">送信</Button>
               </Form>
-              <Button className="btn btn-primary" onClick={() => this.handleClickSubmit()}>送信</Button>
             </Col>
           </Row>
         </Container>
