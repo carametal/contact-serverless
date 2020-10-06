@@ -30,7 +30,17 @@ function App() {
               />
             }
           />
-          <Route path="/confirmation" component={ConfirmationForm} />
+          <Route
+            path="/confirmation"
+            render={() =>
+              <ConfirmationForm
+                name={name}
+                email={email}
+                subject={subject}
+                content={content}
+                history={history}
+              />
+          }/>
         </BrowserRouter>
       </div>
   );
