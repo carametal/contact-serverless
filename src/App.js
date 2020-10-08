@@ -4,6 +4,7 @@ import './App.css';
 import ContactForm from './Components/ContactForm';
 import { Route, useHistory } from 'react-router-dom';
 import ConfirmationForm from './Components/ConfirmationForm';
+import SubmittedView from './Components/SubmittedView';
 
 function App() {
   const history = useHistory();
@@ -41,6 +42,10 @@ function App() {
                 history={history}
               />
           }/>
+          <Route
+            path="/submitted"
+            component={SubmittedView}
+          />
         </BrowserRouter>
       </div>
   );

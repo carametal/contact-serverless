@@ -115,7 +115,7 @@ class ContactForm extends React.Component {
                 ></Form.Control>
                 <Form.Control.Feedback type="invalid">件名を入力してください。</Form.Control.Feedback>
               </Form.Group>
-              <Button type="submit">送信</Button>
+              <Button type="submit">確認</Button>
             </Form>
           </Col>
         </Row>
